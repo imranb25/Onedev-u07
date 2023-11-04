@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  onedev:
+    image: onedev/server
+    ports:
+      - "6610:6610"
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=sec_pass123
+
+  custom_exporter:
+    build:
+      context: ./onedev_exporter.py
+      dockerfile: Dockerfile
+    ports:
+      - "9110:9110"
+
+volumes:
+  prometheus_data:
