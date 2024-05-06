@@ -2,14 +2,14 @@ version: '3'
 
 services:
   onedev:
-    image: onedev/server
+    image: imranb25/onedev:latest
     ports:
       - "6610:6610"
 
   prometheus:
     image: prom/prometheus
     volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
 
@@ -23,10 +23,11 @@ services:
 
   custom_exporter:
     build:
-      context: ./onedev_exporter.py
+      context: ./custom_exporter
       dockerfile: Dockerfile
     ports:
       - "9110:9110"
 
 volumes:
   prometheus_data:
+
